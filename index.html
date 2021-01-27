@@ -1,0 +1,123 @@
+<html>
+	<head>
+		<title>Demo del algoritmo de Diffie Hellman</title>
+		<link rel="stylesheet" href="https://unpkg.com/purecss@2.0.5/build/pure-min.css" integrity="sha384-LTIDeidl25h2dPxrB2Ekgc9c7sEC3CWGM6HeFmuDNUjX76Ert4Z4IY714dhZHPLd" crossorigin="anonymous">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<style type="text/css">
+			.pure-menu {
+				background-color: #5f5f5f;
+				padding: 15px 10px;
+			}
+			.pure-menu a {
+				color: white;
+			}
+			.step-label {
+				font-size: 24px;
+				line-height: 32px;
+				vertical-align: bottom;
+				margin-left: 10px;
+			}
+		</style>
+		<script type="text/javascript">
+			window.onload = function() {
+				var P = 23;
+				var G = 9;
+				
+				var btnGenerateSharedKey = document.getElementById("btn-generate-shared-key");
+				btnGenerateSharedKey.addEventListener("click", function() {
+					var txtRandomNumber = document.getElementById("txt-random-number");
+					
+					var resultToShare = (G ** parseInt(txtRandomNumber.value)) % P;
+					
+					document.getElementById("tit-public-key").style.display = "block";
+					var spanPublicKey = document.getElementById("span-public-key");
+					spanPublicKey.innerHTML = resultToShare;
+				});
+				
+				var btnAccept = document.getElementById("btn-accept");
+				btnAccept.addEventListener("click", function() {
+					var txtOtherUserKey = document.getElementById("txt-other-user-key");
+					var txtRandomNumber = document.getElementById("txt-random-number");
+					
+					var sharedKey = (parseInt(txtOtherUserKey.value) ** (txtRandomNumber.value)) % P;
+					var txtSharedKey = document.getElementById("txt-shared-key");
+					txtSharedKey.value = sharedKey;
+					
+				});
+			}
+		</script>
+	</head>
+	<body>
+		<div class="pure-menu pure-menu-horizontal">
+			<a href="#" class="pure-menu-heading ">Diffie Hellman</a>
+		</div>
+	
+		<div style="padding: 10px 30px">
+			<p>
+				Diffie-Hellman es un algotirmo que permite ponerse de acuerdo de una clave en un medio inseguro.
+			</p>
+			
+			<h3>
+				Puedes probarlo a continuación...
+			</h3>
+		
+			<div>
+				<form class="pure-form">
+					<fieldset>
+						<legend>
+							<img src="writing.png" width="32px" />
+							<b class="step-label">Paso 1:</b> Ingresa un número entre 1 y 99 (¡Cuidado, no lo compartas!) y haz clic en el botón.
+						</legend>
+						<input type="number" id="txt-random-number" max="99" min="1" />
+						<button type="button" class="pure-button pure-button-primary" id="btn-generate-shared-key" >Generar clave para compartir</button>
+					</fieldset>
+					<h4 id="tit-public-key" style="display: none">
+						El siguiente número es tu clave pública y puedes compartirla:
+						<span id="span-public-key"></span>
+					</h4>
+				</form>
+			</div>
+			
+			<div>
+				<form class="pure-form">
+					<fieldset>
+						<legend><b class="step-label">Paso 2:</b> Ingresa la clave pública de la otra persona.</legend>
+						<input type="number" id="txt-other-user-key" />
+						<button type="button" class="pure-button pure-button-primary" id="btn-accept" >Generar clave secreta</button>
+						<span id="span-public-key"></span>
+					</fieldset>
+				</form>
+			</div>
+			
+			<div>
+				<form class="pure-form">
+					<fieldset>
+						<legend><b class="step-label">Paso 3:</b> Cifra y descifra texto con tu clave secreta.</legend>
+						<input type="number" id="txt-shared-key" disabled="disabled"/>
+					</fieldset>
+				</form>
+			</div>
+			
+			<div>
+				<form class="pure-form">
+					<fieldset>
+						<legend><b class="step-label">Paso 4:</b> Envía un mensaje cifrado.</legend>
+						<input type="text" id="txt-plain-text"/>
+						<input type="text" id="txt-cipher-text" disabled="disabled" />
+					</fieldset>
+				</form>
+			</div>
+			
+			<div>
+				<form class="pure-form">
+					<fieldset>
+						<legend><b>Paso 5:</b> Recibe y lee un mensaje cifrado.</legend>
+						<input type="number" id="txt-shared-key"/>
+					</fieldset>
+				</form>
+			</div>
+			
+			<div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
+		</div>
+	</body>
+</html>
