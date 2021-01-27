@@ -1,9 +1,14 @@
 <html>
 	<head>
 		<title>Demo del algoritmo de Diffie Hellman</title>
-		<link rel="stylesheet" href="https://unpkg.com/purecss@2.0.5/build/pure-min.css" integrity="sha384-LTIDeidl25h2dPxrB2Ekgc9c7sEC3CWGM6HeFmuDNUjX76Ert4Z4IY714dhZHPLd" crossorigin="anonymous">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://unpkg.com/purecss@2.0.5/build/pure-min.css" integrity="sha384-LTIDeidl25h2dPxrB2Ekgc9c7sEC3CWGM6HeFmuDNUjX76Ert4Z4IY714dhZHPLd" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Comfortaa" />
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+JP" />
 		<style type="text/css">
+			* {
+				font-family: 'Noto Sans JP';
+			}
 			.pure-menu {
 				background-color: #5f5f5f;
 				padding: 15px 10px;
@@ -16,6 +21,20 @@
 				line-height: 32px;
 				vertical-align: bottom;
 				margin-left: 10px;
+			}
+			.step-description {
+				line-height: 24px;
+				vertical-align: bottom;
+				font-size: 20px;
+			}
+			footer {
+				border-top: 1px solid gray;
+				padding: 30px 15px;
+				color: white;
+				background-color: #5f5f5f;
+			}
+			footer a {
+				color: white;
 			}
 		</style>
 		<script type="text/javascript">
@@ -49,7 +68,7 @@
 	</head>
 	<body>
 		<div class="pure-menu pure-menu-horizontal">
-			<a href="#" class="pure-menu-heading ">Diffie Hellman</a>
+			<a href="#" class="pure-menu-heading" style="font-family: Comfortaa">Diffie Hellman</a>
 		</div>
 	
 		<div style="padding: 10px 30px">
@@ -66,7 +85,8 @@
 					<fieldset>
 						<legend>
 							<img src="writing.png" width="32px" />
-							<b class="step-label">Paso 1:</b> Ingresa un número entre 1 y 99 (¡Cuidado, no lo compartas!) y haz clic en el botón.
+							<b class="step-label">Paso 1:</b>
+							<span class="step-description">Ingresa un número entre 1 y 99 (¡Cuidado, no lo compartas!) y haz clic en el botón.</span>
 						</legend>
 						<input type="number" id="txt-random-number" max="99" min="1" />
 						<button type="button" class="pure-button pure-button-primary" id="btn-generate-shared-key" >Generar clave para compartir</button>
@@ -81,7 +101,11 @@
 			<div>
 				<form class="pure-form">
 					<fieldset>
-						<legend><b class="step-label">Paso 2:</b> Ingresa la clave pública de la otra persona.</legend>
+						<legend>
+							<img src="key.png" width="32px" />
+							<b class="step-label">Paso 2:</b>
+							<span class="step-description">Ingresa la clave pública de la otra persona.</span>
+						</legend>
 						<input type="number" id="txt-other-user-key" />
 						<button type="button" class="pure-button pure-button-primary" id="btn-accept" >Generar clave secreta</button>
 						<span id="span-public-key"></span>
@@ -92,7 +116,11 @@
 			<div>
 				<form class="pure-form">
 					<fieldset>
-						<legend><b class="step-label">Paso 3:</b> Cifra y descifra texto con tu clave secreta.</legend>
+						<legend>
+							<img src="check.png" width="32px" />
+							<b class="step-label">Paso 3:</b>
+							<span class="step-description">Cifra y descifra texto con tu clave secreta.</span>
+						</legend>
 						<input type="number" id="txt-shared-key" disabled="disabled"/>
 					</fieldset>
 				</form>
@@ -101,7 +129,11 @@
 			<div>
 				<form class="pure-form">
 					<fieldset>
-						<legend><b class="step-label">Paso 4:</b> Envía un mensaje cifrado.</legend>
+						<legend style="vertical-align: baseline;">
+							<img src="email.png" width="32px" />
+							<b class="step-label">Paso 4:</b>
+							<span class="step-description">Envía un mensaje cifrado.</span>
+						</legend>
 						<input type="text" id="txt-plain-text"/>
 						<input type="text" id="txt-cipher-text" disabled="disabled" />
 					</fieldset>
@@ -111,13 +143,28 @@
 			<div>
 				<form class="pure-form">
 					<fieldset>
-						<legend><b>Paso 5:</b> Recibe y lee un mensaje cifrado.</legend>
+						<legend style="vertical-align: baseline;">
+							<img src="message.png" width="32px" />
+							<b class="step-label">Paso 5:</b>
+							<span class="step-description">Recibe y lee un mensaje cifrado.</span>
+						</legend>
 						<input type="number" id="txt-shared-key"/>
 					</fieldset>
 				</form>
 			</div>
-			
-			<div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
 		</div>
+		
+		<footer>
+			<div style="text-align: right; font-family: 'Comfortaa'; margin-bottom: 5px;">
+				E-Learning Tool
+			</div>
+			<div style="text-align: right; font-family: 'Comfortaa'; margin-bottom: 5px;">
+				Powered by Pabex Academy
+			</div>
+			
+			<div style="text-align: right; font-family: 'Comfortaa';">
+				Los íconos fueron extraídos desde <a href="https://www.flaticon.com/" title="Flaticon" rel="noopener" target="_blank">www.flaticon.com</a>
+			</div>
+		</footer>
 	</body>
 </html>
