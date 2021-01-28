@@ -16,6 +16,9 @@
 			.pure-menu a {
 				color: white;
 			}
+			.step {
+				margin-top: 30px;
+			}
 			.step-label {
 				font-size: 24px;
 				line-height: 32px;
@@ -56,48 +59,82 @@
 			window.onload = function() {
 				var P = 23;
 				var G = 9;
+				var generatedPublicKey = false;
+				var generatedPrivateSharedKey = false;
 				
-				var btnGenerateSharedKey = document.getElementById("btn-generate-shared-key");
-				btnGenerateSharedKey.addEventListener("click", function() {
+				var btnGeneratePublicKey = document.getElementById("btn-generate-public-key");
+				btnGeneratePublicKey.addEventListener("click", function() {
 					var txtRandomNumber = document.getElementById("txt-random-number");
-					
-					var resultToShare = (G ** parseInt(txtRandomNumber.value)) % P;
-					
-					document.getElementById("tit-public-key").style.display = "block";
-					var spanPublicKey = document.getElementById("span-public-key");
-					spanPublicKey.innerHTML = resultToShare;
+					var randomNumber = parseInt(txtRandomNumber.value);
+					if (randomNumber >= 1 && randomNumber <= 99) {
+						var resultToShare = (G ** randomNumber) % P;
+						
+						document.getElementById("tit-public-key").style.display = "block";
+						var spanPublicKey = document.getElementById("span-public-key");
+						spanPublicKey.innerHTML = resultToShare;
+						
+						generatedPublicKey = true;
+						
+						btnGeneratePublicKey.setAttribute("disabled", "disabled");
+						txtRandomNumber.setAttribute("disabled", "disabled");
+					} else {
+						showMessage("El número ingresado debe ser entre 1 y 99.");
+					}
 				});
 				
-				var btnAccept = document.getElementById("btn-accept");
-				btnAccept.addEventListener("click", function() {
+				var btnGeneratePrivateSharedKey = document.getElementById("btn-generate-private-shared-key");
+				btnGeneratePrivateSharedKey.addEventListener("click", function() {
 					var txtOtherUserKey = document.getElementById("txt-other-user-key");
 					var txtRandomNumber = document.getElementById("txt-random-number");
-
-					var sharedKey = (parseInt(txtOtherUserKey.value) ** (txtRandomNumber.value)) % P;
-					var txtSharedKey = document.getElementById("txt-shared-key");
-					txtSharedKey.value = sharedKey;
-					txtSharedKey.classList.add("success-step-3");
+					var randomNumber = parseInt(txtRandomNumber.value);
+					
+					if (generatedPublicKey) {
+						if (randomNumber >= 1 && randomNumber <= 99) {
+							var sharedKey = (parseInt(txtOtherUserKey.value) ** randomNumber) % P;
+							var txtSharedKey = document.getElementById("txt-shared-key");
+							txtSharedKey.value = sharedKey;
+							txtSharedKey.classList.add("success-step-3");
+							
+							generatedPrivateSharedKey = true;
+							btnGeneratePrivateSharedKey.setAttribute("disabled", "disabled");
+							txtOtherUserKey.setAttribute("disabled", "disabled");
+						}
+					} else {
+						showMessage("Antes debes generar tu clave pública.");
+					}
 				});
 				
 				var btnCipher = document.getElementById("btn-cipher");
 				btnCipher.addEventListener("click", function() {
-					var txtPlainText = document.getElementById("txt-plain-text");
-					var txtSharedKey = document.getElementById("txt-shared-key");
-					var rot = parseInt(txtSharedKey.value);
-					var cipherText = caesar(txtPlainText.value, rot);
-					var txtCipherText = document.getElementById("txt-cipher-text");
-					txtCipherText.value = cipherText;
+					if (generatedPublicKey && generatedPrivateSharedKey) {
+						var txtPlainText = document.getElementById("txt-plain-text");
+						var txtSharedKey = document.getElementById("txt-shared-key");
+						var rot = parseInt(txtSharedKey.value);
+						var cipherText = caesar(txtPlainText.value, rot);
+						var txtCipherText = document.getElementById("txt-cipher-text");
+						txtCipherText.value = cipherText;
+					} else {
+						showMessage("Debes generar una clave privada.");
+					}
 				});
 				
 				var btnDecipher = document.getElementById("btn-decipher");
 				btnDecipher.addEventListener("click", function() {
-					var txtTextToDecipher = document.getElementById("txt-text-to-decipher");
-					var txtSharedKey = document.getElementById("txt-shared-key");
-					var rot = parseInt(txtSharedKey.value);
-					var cipherText = caesar(txtTextToDecipher.value, -rot);
-					var txtDecipheredText = document.getElementById("txt-deciphered-text");
-					txtDecipheredText.value = cipherText;
+					if (generatedPublicKey && generatedPrivateSharedKey) {
+						var txtTextToDecipher = document.getElementById("txt-text-to-decipher");
+						var txtSharedKey = document.getElementById("txt-shared-key");
+						var rot = parseInt(txtSharedKey.value);
+						var cipherText = caesar(txtTextToDecipher.value, -rot);
+						var txtDecipheredText = document.getElementById("txt-deciphered-text");
+						txtDecipheredText.value = cipherText;
+					} else {
+						showMessage("Debes generar una clave privada.");
+					}
 				});
+				
+				function showMessage(text) {
+					alert(text);
+				}
 				
 				function caesar(text, rot) {
 					return text.split('').map(c => {
@@ -128,19 +165,20 @@
 	
 		<div style="padding: 10px 30px">
 			<p>
-				Diffie-Hellman es un algotirmo que permite ponerse de acuerdo de una clave en un medio inseguro.
+				Diffie-Hellman es un algoritmo que permite ponerse de acuerdo para definir una clave en común en un medio inseguro.
 				Por ejemplo, si estás en una reunión con varias personas pero solo con una de ellas quisieras compartir una clave
 				incluso mientras los demás los están viendo, con este algoritmo lo puedes hacer.
 			</p>
 			<p>
 				Este algoritmo se utiliza todo el tiempo cuando navegas por la web ya que se utiliza en el protocolo TLS (HTTPS).
+				Luego de probarlo tienes a disposición la matemática subyacente para que este algoritmo funcione y varias referencias para continuar aprendiendo.
 			</p>
 
-			<h3>
-				Puedes probarlo a continuación...
+			<h3 style="margin-top: 50px; border-bottom: 1px solid teal; padding-bottom: 12px;">
+				Para entender la importancia de este algoritmo, puedes probarlo a continuación con alguien más o duplicando esta pestaña...
 			</h3>
 
-			<div>
+			<div class="step">
 				<form class="pure-form">
 					<fieldset>
 						<legend>
@@ -149,16 +187,16 @@
 							<span class="step-description">Ingresa un número entre 1 y 99 (¡Cuidado, no lo compartas!) y haz clic en el botón.</span>
 						</legend>
 						<input type="number" id="txt-random-number" style="width: 100px" />
-						<button type="button" class="pure-button pure-button-primary" id="btn-generate-shared-key" >Generar clave para compartir</button>
+						<button type="button" class="pure-button pure-button-primary" id="btn-generate-public-key" >Generar clave pública para compartir</button>
 					</fieldset>
 					<h4 id="tit-public-key" style="display: none">
 						El siguiente número es tu clave pública y puedes compartirla:
-						<span id="span-public-key"></span>. Envía este número con quién desees generar una clave y espera que él te envíe la suya.
+						<span id="span-public-key"></span>. Envía este número con quién desees acordar una clave privada y espera que él te envíe su clave pública.
 					</h4>
 				</form>
 			</div>
 			
-			<div>
+			<div class="step">
 				<form class="pure-form">
 					<fieldset>
 						<legend>
@@ -167,64 +205,67 @@
 							<span class="step-description">Ingresa la clave pública de la otra persona y haz clic en el botón.</span>
 						</legend>
 						<input type="number" id="txt-other-user-key" style="width: 100px" />
-						<button type="button" class="pure-button pure-button-primary" id="btn-accept" >Generar clave secreta</button>
+						<button type="button" class="pure-button pure-button-primary" id="btn-generate-private-shared-key" >Generar clave secreta</button>
 						<span id="span-public-key"></span>
 					</fieldset>
 				</form>
 			</div>
 			
-			<div>
+			<div class="step">
 				<form class="pure-form">
 					<fieldset>
 						<legend>
 							<img src="check.png" width="32px" />
 							<b class="step-label">Paso 3:</b>
-							<span class="step-description">A continuación tu clave (la misma obtendrá tu compañero).</span>
+							<span class="step-description">A continuación tu clave privada (Si las claves públicas se compartieron bien, esta clave privada será la misma para tu compañero).</span>
 						</legend>
 						<input type="number" id="txt-shared-key" disabled="disabled" style="width: 100px"/>
 					</fieldset>
 				</form>
 			</div>
 			
-			<div>
+			<div class="step">
 				<form class="pure-form">
 					<fieldset>
 						<legend style="vertical-align: baseline;">
 							<img src="email.png" width="32px" />
 							<b class="step-label">Paso 4:</b>
-							<span class="step-description">Envía un mensaje cifrado.</span>
+							<span class="step-description">Envía un mensaje cifrado (Esto utiliza la clave privada generada en el punto 3).</span>
 						</legend>
 						<input type="text" id="txt-plain-text" maxlength="26" />
 						<button type="button" class="button-success pure-button" id="btn-cipher" >Cifrar</button>
-						<input type="text" id="txt-cipher-text" disabled="disabled" style="background: white!important; color: black!important;" />
+						<input type="text" id="txt-cipher-text" disabled="disabled" style="margin-left: 40px; background: white!important; color: black!important;" />
 					</fieldset>
 				</form>
 			</div>
 			
-			<div>
+			<div class="step">
 				<form class="pure-form">
 					<fieldset>
 						<legend style="vertical-align: baseline;">
 							<img src="message.png" width="32px" />
 							<b class="step-label">Paso 5:</b>
-							<span class="step-description">Recibe y lee un mensaje cifrado.</span>
+							<span class="step-description">Recibe y lee un mensaje cifrado (Esto utiliza la clave privada generada en el punto 3).</span>
 						</legend>
 						<input type="text" id="txt-text-to-decipher" maxlength="26"/>
 						<button type="button" class="button-success pure-button" id="btn-decipher" >Descifrar</button>
-						<input type="text" id="txt-deciphered-text" disabled="disabled" style="background: white!important; color: black!important;" />
+						<input type="text" id="txt-deciphered-text" disabled="disabled" style="margin-left: 40px; background: white!important; color: black!important;" />
 					</fieldset>
 				</form>
 			</div>
 		</div>
 		
 		<footer>
+			<img src="cohete.svg" style="width: 69px; position: relative; float: left" />
+		
 			<div style="text-align: right; font-family: 'Comfortaa'; margin-bottom: 5px;">
 				E-Learning Tool
 			</div>
+
 			<div style="text-align: right; font-family: 'Comfortaa'; margin-bottom: 5px;">
 				Powered by Pabex Academy
 			</div>
-			
+
 			<div style="text-align: right; font-family: 'Comfortaa';">
 				Los íconos fueron extraídos desde <a href="https://www.flaticon.com/" title="Flaticon" rel="noopener" target="_blank">www.flaticon.com</a>
 			</div>
