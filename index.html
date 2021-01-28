@@ -1,6 +1,6 @@
 <html>
 	<head>
-		<title>Demo del algoritmo de Diffie Hellman</title>
+		<title>Algoritmo de Diffie Hellman</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" href="https://unpkg.com/purecss@2.0.5/build/pure-min.css" integrity="sha384-LTIDeidl25h2dPxrB2Ekgc9c7sEC3CWGM6HeFmuDNUjX76Ert4Z4IY714dhZHPLd" crossorigin="anonymous">
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Comfortaa" />
@@ -36,6 +36,21 @@
 			footer a {
 				color: white;
 			}
+			.success-step-3 {
+				background-color: #12b912!important;
+				color: white!important;
+			}
+			.button-success,
+			.button-error,
+			.button-warning,
+			.button-secondary {
+				color: white;
+				border-radius: 4px;
+				text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+			}
+			.button-success {
+				background: rgb(28, 184, 65);
+			}
 		</style>
 		<script type="text/javascript">
 			window.onload = function() {
@@ -57,12 +72,52 @@
 				btnAccept.addEventListener("click", function() {
 					var txtOtherUserKey = document.getElementById("txt-other-user-key");
 					var txtRandomNumber = document.getElementById("txt-random-number");
-					
+
 					var sharedKey = (parseInt(txtOtherUserKey.value) ** (txtRandomNumber.value)) % P;
 					var txtSharedKey = document.getElementById("txt-shared-key");
 					txtSharedKey.value = sharedKey;
-					
+					txtSharedKey.classList.add("success-step-3");
 				});
+				
+				var btnCipher = document.getElementById("btn-cipher");
+				btnCipher.addEventListener("click", function() {
+					var txtPlainText = document.getElementById("txt-plain-text");
+					var txtSharedKey = document.getElementById("txt-shared-key");
+					var rot = parseInt(txtSharedKey.value);
+					var cipherText = caesar(txtPlainText.value, rot);
+					var txtCipherText = document.getElementById("txt-cipher-text");
+					txtCipherText.value = cipherText;
+				});
+				
+				var btnDecipher = document.getElementById("btn-decipher");
+				btnDecipher.addEventListener("click", function() {
+					var txtTextToDecipher = document.getElementById("txt-text-to-decipher");
+					var txtSharedKey = document.getElementById("txt-shared-key");
+					var rot = parseInt(txtSharedKey.value);
+					var cipherText = caesar(txtTextToDecipher.value, -rot);
+					var txtDecipheredText = document.getElementById("txt-deciphered-text");
+					txtDecipheredText.value = cipherText;
+				});
+				
+				function caesar(text, rot) {
+					return text.split('').map(c => {
+						let mayus = (c === c.toUpperCase()) ? true : false;
+						let valorEntero = c.toLowerCase().charCodeAt(0);
+						if (valorEntero >= 97 && valorEntero <= 122) {
+								
+								if (valorEntero + rot > 122) {
+									valorEntero = 97 + (valorEntero - 122) + rot - 1;
+								} else if (valorEntero + rot >= 97) {
+									valorEntero = valorEntero + rot;
+								} else {
+									valorEntero = 122 - (97 - (valorEntero + rot)) + 1;
+								}
+							}
+					
+							let cifrado = String.fromCharCode(valorEntero);
+							return mayus ? cifrado.toUpperCase() : cifrado;
+						}).join('');
+				}
 			}
 		</script>
 	</head>
@@ -74,12 +129,17 @@
 		<div style="padding: 10px 30px">
 			<p>
 				Diffie-Hellman es un algotirmo que permite ponerse de acuerdo de una clave en un medio inseguro.
+				Por ejemplo, si estás en una reunión con varias personas pero solo con una de ellas quisieras compartir una clave
+				incluso mientras los demás los están viendo, con este algoritmo lo puedes hacer.
 			</p>
-			
+			<p>
+				Este algoritmo se utiliza todo el tiempo cuando navegas por la web ya que se utiliza en el protocolo TLS (HTTPS).
+			</p>
+
 			<h3>
 				Puedes probarlo a continuación...
 			</h3>
-		
+
 			<div>
 				<form class="pure-form">
 					<fieldset>
@@ -88,12 +148,12 @@
 							<b class="step-label">Paso 1:</b>
 							<span class="step-description">Ingresa un número entre 1 y 99 (¡Cuidado, no lo compartas!) y haz clic en el botón.</span>
 						</legend>
-						<input type="number" id="txt-random-number" max="99" min="1" />
+						<input type="number" id="txt-random-number" style="width: 100px" />
 						<button type="button" class="pure-button pure-button-primary" id="btn-generate-shared-key" >Generar clave para compartir</button>
 					</fieldset>
 					<h4 id="tit-public-key" style="display: none">
 						El siguiente número es tu clave pública y puedes compartirla:
-						<span id="span-public-key"></span>
+						<span id="span-public-key"></span>. Envía este número con quién desees generar una clave y espera que él te envíe la suya.
 					</h4>
 				</form>
 			</div>
@@ -104,9 +164,9 @@
 						<legend>
 							<img src="key.png" width="32px" />
 							<b class="step-label">Paso 2:</b>
-							<span class="step-description">Ingresa la clave pública de la otra persona.</span>
+							<span class="step-description">Ingresa la clave pública de la otra persona y haz clic en el botón.</span>
 						</legend>
-						<input type="number" id="txt-other-user-key" />
+						<input type="number" id="txt-other-user-key" style="width: 100px" />
 						<button type="button" class="pure-button pure-button-primary" id="btn-accept" >Generar clave secreta</button>
 						<span id="span-public-key"></span>
 					</fieldset>
@@ -119,9 +179,9 @@
 						<legend>
 							<img src="check.png" width="32px" />
 							<b class="step-label">Paso 3:</b>
-							<span class="step-description">Cifra y descifra texto con tu clave secreta.</span>
+							<span class="step-description">A continuación tu clave (la misma obtendrá tu compañero).</span>
 						</legend>
-						<input type="number" id="txt-shared-key" disabled="disabled"/>
+						<input type="number" id="txt-shared-key" disabled="disabled" style="width: 100px"/>
 					</fieldset>
 				</form>
 			</div>
@@ -134,8 +194,9 @@
 							<b class="step-label">Paso 4:</b>
 							<span class="step-description">Envía un mensaje cifrado.</span>
 						</legend>
-						<input type="text" id="txt-plain-text"/>
-						<input type="text" id="txt-cipher-text" disabled="disabled" />
+						<input type="text" id="txt-plain-text" maxlength="26" />
+						<button type="button" class="button-success pure-button" id="btn-cipher" >Cifrar</button>
+						<input type="text" id="txt-cipher-text" disabled="disabled" style="background: white!important; color: black!important;" />
 					</fieldset>
 				</form>
 			</div>
@@ -148,7 +209,9 @@
 							<b class="step-label">Paso 5:</b>
 							<span class="step-description">Recibe y lee un mensaje cifrado.</span>
 						</legend>
-						<input type="number" id="txt-shared-key"/>
+						<input type="text" id="txt-text-to-decipher" maxlength="26"/>
+						<button type="button" class="button-success pure-button" id="btn-decipher" >Descifrar</button>
+						<input type="text" id="txt-deciphered-text" disabled="disabled" style="background: white!important; color: black!important;" />
 					</fieldset>
 				</form>
 			</div>
