@@ -182,84 +182,96 @@
 				Para entender la importancia de este algoritmo, puedes probarlo a continuación con alguien más o duplicando esta pestaña...
 			</h3>
 
-			<div class="step">
-				<form class="pure-form">
-					<fieldset>
-						<legend>
-							<img src="writing.png" width="32px" />
-							<b class="step-label">Paso 1:</b>
-							<span class="step-description">Ingresa un número entre 1 y 99 (¡Cuidado, no lo compartas!) y haz clic en el botón.</span>
-						</legend>
-						<input type="number" id="txt-random-number" style="width: 100px" />
-						<button type="button" class="pure-button pure-button-primary" id="btn-generate-public-key" >Generar clave pública para compartir</button>
-					</fieldset>
-					<h4 id="tit-public-key" style="display: none">
-						El siguiente número es tu clave pública y puedes compartirla:
-						<span id="span-public-key"></span>. Envía este número con quién desees acordar una clave privada y espera que él te envíe su clave pública.
-					</h4>
-				</form>
+			<h3 style="color: #3e3d3d">
+				Generación de una clave en común
+			</h3>
+
+			<div style="border-left: 1px solid lightgray; padding-left: 30px;">
+				<div class="step">
+					<form class="pure-form">
+						<fieldset>
+							<legend>
+								<img src="writing.png" width="32px" />
+								<b class="step-label">Paso 1:</b>
+								<span class="step-description">Ingresa un número entre 1 y 99 (¡Cuidado, no lo compartas!) y haz clic en el botón.</span>
+							</legend>
+							<input type="number" id="txt-random-number" style="width: 100px" />
+							<button type="button" class="pure-button pure-button-primary" id="btn-generate-public-key" >Generar clave pública para compartir</button>
+						</fieldset>
+						<h4 id="tit-public-key" style="display: none">
+							El siguiente número es tu clave pública y puedes compartirla:
+							<span id="span-public-key"></span>. Envía este número con quién desees acordar una clave privada y espera que él te envíe su clave pública.
+						</h4>
+					</form>
+				</div>
+				
+				<div class="step">
+					<form class="pure-form">
+						<fieldset>
+							<legend>
+								<img src="key.png" width="32px" />
+								<b class="step-label">Paso 2:</b>
+								<span class="step-description">Ingresa la clave pública de la otra persona y haz clic en el botón.</span>
+							</legend>
+							<input type="number" id="txt-other-user-key" style="width: 100px" />
+							<button type="button" class="pure-button pure-button-primary" id="btn-generate-private-shared-key" >Generar clave secreta</button>
+							<span id="span-public-key"></span>
+						</fieldset>
+					</form>
+				</div>
+				
+				<div class="step">
+					<form class="pure-form">
+						<fieldset>
+							<legend>
+								<img src="check.png" width="32px" />
+								<b class="step-label">Paso 3:</b>
+								<span class="step-description">A continuación tu clave privada (Si las claves públicas se compartieron bien, esta clave privada será la misma para tu compañero).</span>
+							</legend>
+							<input type="number" id="txt-shared-key" disabled="disabled" style="width: 100px"/>
+						</fieldset>
+					</form>
+				</div>
 			</div>
 			
-			<div class="step">
-				<form class="pure-form">
-					<fieldset>
-						<legend>
-							<img src="key.png" width="32px" />
-							<b class="step-label">Paso 2:</b>
-							<span class="step-description">Ingresa la clave pública de la otra persona y haz clic en el botón.</span>
-						</legend>
-						<input type="number" id="txt-other-user-key" style="width: 100px" />
-						<button type="button" class="pure-button pure-button-primary" id="btn-generate-private-shared-key" >Generar clave secreta</button>
-						<span id="span-public-key"></span>
-					</fieldset>
-				</form>
-			</div>
+			<h3 style="color: #3e3d3d">
+				Enviar y recibir mensajes
+			</h3>
 			
-			<div class="step">
-				<form class="pure-form">
-					<fieldset>
-						<legend>
-							<img src="check.png" width="32px" />
-							<b class="step-label">Paso 3:</b>
-							<span class="step-description">A continuación tu clave privada (Si las claves públicas se compartieron bien, esta clave privada será la misma para tu compañero).</span>
-						</legend>
-						<input type="number" id="txt-shared-key" disabled="disabled" style="width: 100px"/>
-					</fieldset>
-				</form>
-			</div>
-			
-			<div class="step">
-				<form class="pure-form">
-					<fieldset>
-						<legend style="vertical-align: baseline;">
-							<img src="email.png" width="32px" />
-							<b class="step-label">Paso 4:</b>
-							<span class="step-description">Envía un mensaje cifrado (Esto utiliza la clave privada generada en el punto 3).</span>
-						</legend>
-						<input type="text" id="txt-plain-text" maxlength="26" />
-						<button type="button" class="button-success pure-button" id="btn-cipher" >Cifrar</button>
-						<input type="text" id="txt-cipher-text" disabled="disabled" style="margin-left: 40px; background: white!important; color: black!important;" />
-					</fieldset>
-				</form>
-			</div>
-			
-			<div class="step">
-				<form class="pure-form">
-					<fieldset>
-						<legend style="vertical-align: baseline;">
-							<img src="message.png" width="32px" />
-							<b class="step-label">Paso 5:</b>
-							<span class="step-description">Recibe y lee un mensaje cifrado (Esto utiliza la clave privada generada en el punto 3).</span>
-						</legend>
-						<input type="text" id="txt-text-to-decipher" maxlength="26"/>
-						<button type="button" class="button-success pure-button" id="btn-decipher" >Descifrar</button>
-						<input type="text" id="txt-deciphered-text" disabled="disabled" style="margin-left: 40px; background: white!important; color: black!important;" />
-					</fieldset>
-				</form>
+			<div style="border-left: 1px solid lightgray; padding-left: 30px;">
+				<div class="step">
+					<form class="pure-form">
+						<fieldset>
+							<legend style="vertical-align: baseline;">
+								<img src="email.png" width="32px" />
+								<b class="step-label">Paso 4:</b>
+								<span class="step-description">Envía un mensaje cifrado (Esto utiliza la clave privada generada en el punto 3).</span>
+							</legend>
+							<input type="text" id="txt-plain-text" maxlength="26" />
+							<button type="button" class="button-success pure-button" id="btn-cipher" >Cifrar</button>
+							<input type="text" id="txt-cipher-text" disabled="disabled" style="margin-left: 40px; background: white!important; color: black!important;" />
+						</fieldset>
+					</form>
+				</div>
+				
+				<div class="step">
+					<form class="pure-form">
+						<fieldset>
+							<legend style="vertical-align: baseline;">
+								<img src="message.png" width="32px" />
+								<b class="step-label">Paso 5:</b>
+								<span class="step-description">Recibe y lee un mensaje cifrado (Esto utiliza la clave privada generada en el punto 3).</span>
+							</legend>
+							<input type="text" id="txt-text-to-decipher" maxlength="26"/>
+							<button type="button" class="button-success pure-button" id="btn-decipher" >Descifrar</button>
+							<input type="text" id="txt-deciphered-text" disabled="disabled" style="margin-left: 40px; background: white!important; color: black!important;" />
+						</fieldset>
+					</form>
+				</div>
 			</div>
 			
 			<h3 style="margin-top: 50px; border-bottom: 1px solid teal; padding-bottom: 12px;">
-				¿Querés saber cómo funciona? Seguí leyendo...
+				¿Quieres saber cómo funciona? Sigue leyendo...
 			</h3>
 			
 			<p>[En redacción]</p>
