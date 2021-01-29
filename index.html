@@ -56,6 +56,14 @@
 			.button-success {
 				background: rgb(28, 184, 65);
 			}
+			@media (max-width: 424px) {
+				button {
+					font-size: 12px!important;
+				}
+				input {
+					font-size: 12px!important;
+				}
+			}
 		</style>
 		<script src='https://cdn.jsdelivr.net/npm/big.js@6.0.0/big.min.js'></script>
 		<script type="text/javascript">
@@ -169,13 +177,12 @@
 	
 		<div style="padding: 10px 30px">
 			<p>
-				Diffie-Hellman es un algoritmo que permite ponerse de acuerdo para definir una clave en común en un medio inseguro.
+				Diffie-Hellman es un algoritmo que permite ponerse de acuerdo para definir una clave en común entre 2 involucrados en un medio inseguro.
 				Por ejemplo, si estás en una reunión con varias personas pero solo con una de ellas quisieras compartir una clave
 				incluso mientras los demás los están viendo, con este algoritmo lo puedes hacer.
 			</p>
 			<p>
 				Este algoritmo se utiliza todo el tiempo cuando navegas por la web ya que se utiliza en el protocolo TLS (HTTPS).
-				Luego de probarlo tienes a disposición la matemática subyacente para que este algoritmo funcione y varias referencias para continuar aprendiendo.
 			</p>
 
 			<h3 style="margin-top: 50px; border-bottom: 1px solid teal; padding-bottom: 12px;">
@@ -199,7 +206,7 @@
 							<button type="button" class="pure-button pure-button-primary" id="btn-generate-public-key" >Generar clave pública para compartir</button>
 						</fieldset>
 						<h4 id="tit-public-key" style="display: none">
-							El siguiente número es tu clave pública y puedes compartirla:
+							El siguiente número es tu clave pública y puedes compartirla por cualquier medio:
 							<span id="span-public-key"></span>. Envía este número con quién desees acordar una clave privada y espera que él te envíe su clave pública.
 						</h4>
 					</form>
@@ -249,9 +256,10 @@
 							</legend>
 							<input type="text" id="txt-plain-text" maxlength="26" />
 							<button type="button" class="button-success pure-button" id="btn-cipher" >Cifrar</button>
-							<input type="text" id="txt-cipher-text" disabled="disabled" style="margin-left: 40px; background: white!important; color: black!important;" />
 						</fieldset>
+						<input type="text" id="txt-cipher-text" disabled="disabled" style="background: white!important; color: black!important;" />
 					</form>
+					
 				</div>
 				
 				<div class="step">
@@ -264,8 +272,8 @@
 							</legend>
 							<input type="text" id="txt-text-to-decipher" maxlength="26"/>
 							<button type="button" class="button-success pure-button" id="btn-decipher" >Descifrar</button>
-							<input type="text" id="txt-deciphered-text" disabled="disabled" style="margin-left: 40px; background: white!important; color: black!important;" />
 						</fieldset>
+						<input type="text" id="txt-deciphered-text" disabled="disabled" style="background: white!important; color: black!important;" />
 					</form>
 				</div>
 			</div>
@@ -274,7 +282,30 @@
 				¿Quieres saber cómo funciona? Sigue leyendo...
 			</h3>
 			
-			<p>[En redacción]</p>
+			<p>
+				Para que este algoritmo funcione se deben definir previamente 2 constantes: G y P. En este caso son: 9 y 23, respectivamente.
+				Estas constantes también pueden ser acordadas entre los involucrados, pues son públicas.
+				
+			</p>
+			<p>
+				Luego se requiere que cada involucrado genere un número aleatorio (en esta demo se restringió a 99 como valor máximo aunque esto es solo a modo de ejemplificación).
+				Le llamemos a este número A.
+			</p>
+			<p>
+				Para generar la clave pública X que se compartirá con el otro involucrado se debe calcular la siguiente fórmula:
+			</p>
+			<h4 style="text-align: center">
+				X = G ^ A mod P
+			</h4>
+			<p>
+				Una vez que cada involucrado conoce la clave pública del otro, se procede a generar la clave privada K (que será la misma para los 2):
+			</p>
+			<h4 style="text-align: center">
+				K = X<sub>otro</sub> ^ A mod P
+			</h4>
+			<p>
+				Finalmente que ya tenemos definida la clave privada compartida K, se la puede utilizar para cifrar mensajes. En este caso, se utiliza el cifrado César.
+			</p>
 		</div>
 		
 		<footer>
