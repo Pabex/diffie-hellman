@@ -3,6 +3,7 @@
 		<title>Algoritmo de Diffie Hellman</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="icon" type="image/png" href="favicon.png">
 		<link rel="stylesheet" href="https://unpkg.com/purecss@2.0.5/build/pure-min.css" integrity="sha384-LTIDeidl25h2dPxrB2Ekgc9c7sEC3CWGM6HeFmuDNUjX76Ert4Z4IY714dhZHPLd" crossorigin="anonymous">
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Comfortaa" />
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+JP" />
@@ -56,10 +57,11 @@
 				background: rgb(28, 184, 65);
 			}
 		</style>
+		<script src='https://cdn.jsdelivr.net/npm/big.js@6.0.0/big.min.js'></script>
 		<script type="text/javascript">
 			window.onload = function() {
 				var P = 23;
-				var G = 9;
+				var G = new Big(9);
 				var generatedPublicKey = false;
 				var generatedPrivateSharedKey = false;
 				
@@ -68,7 +70,7 @@
 					var txtRandomNumber = document.getElementById("txt-random-number");
 					var randomNumber = parseInt(txtRandomNumber.value);
 					if (randomNumber >= 1 && randomNumber <= 99) {
-						var resultToShare = (G ** randomNumber) % P;
+						var resultToShare = G.pow(randomNumber).mod(P).toString();
 						
 						document.getElementById("tit-public-key").style.display = "block";
 						var spanPublicKey = document.getElementById("span-public-key");
@@ -88,10 +90,11 @@
 					var txtOtherUserKey = document.getElementById("txt-other-user-key");
 					var txtRandomNumber = document.getElementById("txt-random-number");
 					var randomNumber = parseInt(txtRandomNumber.value);
+					var otherPublicKey = new Big(parseInt(txtOtherUserKey.value));
 					
 					if (generatedPublicKey) {
 						if (randomNumber >= 1 && randomNumber <= 99) {
-							var sharedKey = (parseInt(txtOtherUserKey.value) ** randomNumber) % P;
+							var sharedKey = otherPublicKey.pow(randomNumber).mod(P).toString();
 							var txtSharedKey = document.getElementById("txt-shared-key");
 							txtSharedKey.value = sharedKey;
 							txtSharedKey.classList.add("success-step-3");
