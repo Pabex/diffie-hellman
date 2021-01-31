@@ -173,6 +173,7 @@
 	<body>
 		<div class="pure-menu pure-menu-horizontal">
 			<a href="#" class="pure-menu-heading" style="font-family: Comfortaa">Diffie Hellman</a>
+			<span style="position: relative; float: right;">https://github.com/Pabex/diffie-hellman</span>
 		</div>
 	
 		<div style="padding: 10px 30px">
@@ -278,6 +279,7 @@
 				</div>
 			</div>
 			
+			
 			<h3 style="margin-top: 50px; border-bottom: 1px solid teal; padding-bottom: 12px;">
 				¿Quieres saber cómo funciona? Sigue leyendo...
 			</h3>
@@ -306,6 +308,55 @@
 			<p>
 				Finalmente que ya tenemos definida la clave privada compartida K, se la puede utilizar para cifrar mensajes. En este caso, se utiliza el cifrado César.
 			</p>
+			
+			
+			<h3 style="margin-top: 50px; border-bottom: 1px solid teal; padding-bottom: 12px;">
+				Diagrama de secuencia
+			</h3>
+			
+			<p>
+				Resumen: Germán y Fede se envían mensajes en un canal abierto.
+			</p>
+			
+			<p>
+				Resultado: Se obtiene una clave K secreta conocida solo por Germán y Fede.
+			</p>
+
+			<p>
+				<img src="secuencia.jpeg" />
+			</p>
+			
+			
+			<h3 style="margin-top: 50px; border-bottom: 1px solid teal; padding-bottom: 12px;">
+				Comentario sobre la seguridad
+			</h3>
+			
+			<p>
+			La versión básica de Diffie-Hellman solo preserva el secreto de la clave ante espías pasivos, es decir, aquellos que solo ven pero no modifican.
+En caso de adversarios activos, es decir, aquellos capaces de interceptar y modificar los mensajes no hay garantía del secreto.
+			</p>
+			
+			
+			<h3 style="margin-top: 50px; border-bottom: 1px solid teal; padding-bottom: 12px;">
+				Referencias
+			</h3>
+			<ul>
+				<li>Libro: Capítulo 12.6 - Handbook of Applied Cryptography - Menezes, Oorschot, Vanstone.</li>
+				<li>Libro: Criptografía, protección de datos y aplicaciones, Guía para estudiantes y profesionales. - Fúster Sabater, Hernández Encinas, Martín Muñoz, Montoya Vitini, Muñoz Masqué</li>
+				<li>Video: Píldora formativa 38: ¿Qué es el intercambio de clave de Diffie y Hellman? - 
+					<a href="https://www.youtube.com/watch?v=TWhax2wQOrU&t=316s">https://www.youtube.com/watch?v=TWhax2wQOrU&t=316s</a> - UPM</li>
+				<li>Código fuente: <a href="https://github.com/Pabex/diffie-hellman">https://github.com/Pabex/diffie-hellman</a></li>
+			</ul>
+			
+			
+			<h3 style="margin-top: 50px; border-bottom: 1px solid teal; padding-bottom: 12px;">
+				¿Quieres contactarnos?
+			</h3>
+			
+			<ul>
+				<li><a href="https://twitter.com/GochiParisi">https://twitter.com/GochiParisi</a></li>
+				<li><a href="https://twitter.com/FedeJBertola">https://twitter.com/FedeJBertola</a></li>
+			</ul>
 		</div>
 		
 		<footer>
@@ -325,3 +376,17 @@
 		</footer>
 	</body>
 </html>
+
+
+Existen otros algoritmos más para llegar a un acuerdo de clave (key agreement).
+
+
+
+
+
+
+
+
+
+
+Referencias:
