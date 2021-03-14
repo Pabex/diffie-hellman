@@ -12,7 +12,6 @@
 				font-family: 'Noto Sans JP';
 			}
 			.pure-menu {
-				background-color: #5f5f5f;
 				padding: 15px 10px;
 			}
 			.pure-menu a {
@@ -36,7 +35,7 @@
 				border-top: 1px solid gray;
 				padding: 30px 15px;
 				color: white;
-				background-color: #5f5f5f;
+				background-color: #1e0d33;
 			}
 			footer a {
 				color: white;
@@ -62,6 +61,9 @@
 				}
 				input {
 					font-size: 12px!important;
+				}
+				.div-imagen-representativa {
+					display: none;
 				}
 			}
 		</style>
@@ -171,25 +173,32 @@
 		</script>
 	</head>
 	<body>
-		<div class="pure-menu pure-menu-horizontal">
-			<a href="#" class="pure-menu-heading" style="font-family: Comfortaa">Diffie Hellman</a>
+		<div class="pure-menu pure-menu-horizontal" style="background-color: #1e0d33; height: 100px">
+			<img src="cohete.svg" style="width: 70px; vertical-align: middle" />
+			<span style="font-family: Comfortaa; color: white">Diffie Hellman</span>
 		</div>
 	
 		<div style="padding: 10px 30px">
-			<p>
+			<div class="div-imagen-representativa">
+				<img src="imagen-representativa.png" width="300px" style="float: right;" />
+			</div>
+		
+			<p style="display: flex;">
 				Diffie-Hellman es un algoritmo que permite ponerse de acuerdo para definir una clave en común entre 2 involucrados en un medio inseguro.
 				Por ejemplo, si estás en una reunión con varias personas pero solo con una de ellas quisieras compartir una clave
 				incluso mientras los demás los están viendo, con este algoritmo lo puedes hacer.
 			</p>
-			<p>
+			<p style="display: flex;">
 				Este algoritmo se utiliza todo el tiempo cuando navegas por la web ya que se utiliza en el protocolo TLS (HTTPS).
 			</p>
+			
+			
 
-			<h3 style="margin-top: 50px; border-bottom: 1px solid teal; padding-bottom: 12px;">
+			<h3 style="margin-top: 50px; border-bottom: 1px solid teal; padding-bottom: 12px; display: flex;">
 				Para entender la importancia de este algoritmo, puedes probarlo a continuación con alguien más o duplicando esta pestaña...
 			</h3>
 
-			<h3 style="color: #3e3d3d">
+			<h3 style="color: #3e3d3d; display: flex;">
 				Generación de una clave en común
 			</h3>
 
@@ -233,7 +242,7 @@
 							<legend>
 								<img src="check.png" width="32px" />
 								<b class="step-label">Paso 3:</b>
-								<span class="step-description">A continuación tu clave privada (Si las claves públicas se compartieron bien, esta clave privada será la misma para tu compañero).</span>
+								<span class="step-description">A continuación está tu clave privada (Si las claves públicas se compartieron bien, esta clave privada será la misma para tu compañero).</span>
 							</legend>
 							<input type="number" id="txt-shared-key" disabled="disabled" style="width: 100px"/>
 						</fieldset>
@@ -252,7 +261,7 @@
 							<legend style="vertical-align: baseline;">
 								<img src="email.png" width="32px" />
 								<b class="step-label">Paso 4:</b>
-								<span class="step-description">Envía un mensaje cifrado (Esto utiliza la clave privada generada en el punto 3).</span>
+								<span class="step-description">Escribe algo a continuación para enviar un mensaje cifrado (Esto utiliza la clave privada generada en el punto 3).</span>
 							</legend>
 							<input type="text" id="txt-plain-text" maxlength="26" />
 							<button type="button" class="button-success pure-button" id="btn-cipher" >Cifrar</button>
@@ -284,7 +293,7 @@
 			</h3>
 			
 			<p>
-				Para que este algoritmo funcione se deben definir previamente 2 constantes: G y P. En este caso son: 9 y 23, respectivamente.
+				Para que este algoritmo funcione se deben definir previamente 2 constantes: G y P. En este caso fueron definidas arbitrariamente y son: 9 y 23, respectivamente.
 				Estas constantes también pueden ser acordadas entre los involucrados, pues son públicas.
 				
 			</p>
@@ -363,12 +372,6 @@ En caso de adversarios activos, es decir, aquellos capaces de interceptar y modi
 		</div>
 		
 		<footer>
-			<img src="cohete.svg" style="width: 69px; position: relative; float: left" />
-		
-			<div style="text-align: right; font-family: 'Comfortaa'; margin-bottom: 5px;">
-				E-Learning Tool
-			</div>
-
 			<div style="text-align: right; font-family: 'Comfortaa'; margin-bottom: 5px;">
 				Powered by Pabex Academy
 			</div>
